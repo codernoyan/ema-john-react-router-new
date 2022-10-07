@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
+import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 
 const Shop = () => {
     const { products } = useLoaderData();
     // console.log(products)
-    
+    const [cart, setCart] = useState([]);
+
+    const handleAddToCart = selectedProduct => {
+        // console.log(selectedProduct);
+        const previousCart = [...cart, selectedProduct];
+        setCart(previousCart);
+        // console.log(previousCart)
+    }
+
     return (
         <div className='grid grid-cols-4 gap-4'>
             {/* products */}
@@ -16,13 +25,14 @@ const Shop = () => {
                         products.map(product => <Product
                             key={product.id}
                             product={product}
+                            handleAddToCart={handleAddToCart}
                         ></Product>)
                     }
                 </div>
             </div>
             {/* product price summary */}
-            <div className='bg-rose-500'>
-                <h4>Price Summary:</h4>
+            <div className='bg-cyan-300'>
+                <Cart cart={cart}></Cart>
             </div>
         </div>
     );
